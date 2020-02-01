@@ -11,6 +11,8 @@ function mountOneClient (config, app, client = "wechat") {
   assert(config.secret, "[egg-passport-wechat] config.passportWechat.secret required");
 
   app.passport.use(client, new Strategy(Object.assign({}, config, { appID: config.key, appSecret: config.secret }), (req, accessToken, refreshToken, profile, expiresIn, verified) => {
+    profile._raw = JSON.stringify(profile)
+
     const user = {
       providerPlatform: "wechat",
       providerGroup: "wechat",
