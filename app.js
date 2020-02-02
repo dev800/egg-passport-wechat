@@ -6,6 +6,9 @@ const Strategy = require("./lib/passport-wechat/index").Strategy;
 
 function mountOneClient (config, app, client = "wechat") {
   config.passReqToCallback = true;
+  config.provider = client;
+  config.providerMedia = 'wechat';
+  config.providerPlatform = 'wechat';
 
   assert(config.key, "[egg-passport-wechat] config.passportWechat.key required");
   assert(config.secret, "[egg-passport-wechat] config.passportWechat.secret required");
@@ -14,8 +17,8 @@ function mountOneClient (config, app, client = "wechat") {
     profile._raw = JSON.stringify(profile)
 
     const user = {
-      providerPlatform: "wechat",
-      providerMedia: "wechat",
+      providerPlatform: config.providerPlatform,
+      providerMedia: config.providerMedia,
       provider: client,
       id: profile.unionid || profile.openid,
       name: profile.nickname,
@@ -38,6 +41,14 @@ exports.default = (app) => {
   if (config.clients) {
     for (const client in config.clients) {
       const c = config.clients[client];
+
+      if (config.saveToken) {
+        c.saveToken = config.saveToken
+      }
+
+      if (config.getToken) {
+        c.getToken = config.getToken
+      }
 
       if (config.state) {
         c.state = config.state
