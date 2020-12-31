@@ -7,8 +7,8 @@ const Strategy = require("./lib/passport-wechat/index").Strategy;
 function mountOneClient (config, app, client = "wechat") {
   config.passReqToCallback = true;
   config.provider = client;
-  config.providerMedia = 'wechat';
-  config.providerPlatform = 'wechat';
+  config.providerPlatform = config.providerPlatform || 'wechat';
+  config.providerMedia = config.providerMedia || 'wechat-service';
 
   assert(config.key, "[egg-passport-wechat] config.passportWechat.key required");
   assert(config.secret, "[egg-passport-wechat] config.passportWechat.secret required");
