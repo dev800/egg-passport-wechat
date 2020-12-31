@@ -20,7 +20,7 @@ function mountOneClient (config, app, client = "wechat") {
       providerPlatform: config.providerPlatform,
       providerMedia: config.providerMedia,
       provider: client,
-      id: profile.unionid || profile.openid,
+      id: profile.openid,
       name: profile.nickname,
       displayName: profile.nickname,
       photo: profile.headimgurl,
@@ -35,6 +35,7 @@ function mountOneClient (config, app, client = "wechat") {
     app.passport.doVerify(req, user, verified);
   }));
 }
+
 exports.default = (app) => {
   const config = app.config.passportWechat;
 
